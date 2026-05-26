@@ -5,6 +5,7 @@ import Modal from "@/refresh-components/Modal";
 import { Button } from "@opal/components";
 import { ValidSources } from "@/lib/types";
 import { SettingsContext } from "@/providers/SettingsProvider";
+import { resolveBrandName } from "@/lib/branding";
 import { getSourceMetadata } from "@/lib/sources";
 import useFederatedOAuthStatus from "@/hooks/useFederatedOAuthStatus";
 import { SvgLink } from "@opal/icons";
@@ -117,8 +118,9 @@ export default function FederatedOAuthModal() {
     return null;
   }
 
-  const applicationName =
-    settings?.enterpriseSettings?.application_name || "Onyx";
+  const applicationName = resolveBrandName(
+    settings?.enterpriseSettings?.application_name
+  );
 
   return (
     <Modal open>

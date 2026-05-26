@@ -680,3 +680,136 @@
   --scrollbar-track: transparent;
   --scrollbar-thumb: var(--alpha-grey-00-20);
 }
+
+/* UTRGV Colors */
+.utrgv {
+  --utrgv-orange: #ffa300;
+  --utrgv-dark-orange: #f05023;
+  --utrgv-green: #00843d;
+  --utrgv-navy: #0c2340;
+
+  /* Text */
+  --text-05: var(--utrgv-navy);
+  --text-04: rgba(12, 35, 64, 0.86);
+  --text-03: rgba(12, 35, 64, 0.64);
+  --text-02: rgba(12, 35, 64, 0.46);
+  --text-01: rgba(12, 35, 64, 0.22);
+  --text-inverted-01: rgba(255, 255, 255, 0.24);
+  --text-inverted-02: rgba(255, 255, 255, 0.48);
+  --text-inverted-03: rgba(255, 255, 255, 0.66);
+  --text-inverted-04: rgba(255, 255, 255, 0.84);
+  --text-inverted-05: rgba(255, 255, 255, 0.96);
+
+  /* Background / Neutral */
+  --background-neutral-00: #fffdf8;
+  --background-neutral-01: #fff7e8;
+  --background-neutral-02: #f7eddc;
+  --background-neutral-03: #efe1cb;
+  --background-neutral-04: #e3d1b8;
+  --background-neutral-inverted-04: #214460;
+  --background-neutral-inverted-03: #183650;
+  --background-neutral-inverted-02: #122b46;
+  --background-neutral-inverted-01: #0f263f;
+  --background-neutral-inverted-00: var(--utrgv-navy);
+
+  /* Background / Tint */
+  --background-tint-00: #fffdf8;
+  --background-tint-01: #fff5df;
+  --background-tint-02: #ffedc5;
+  --background-tint-03: #ffe0a3;
+  --background-tint-04: #ffd17a;
+  --background-tint-inverted-04: #1d7350;
+  --background-tint-inverted-03: #115b40;
+  --background-tint-inverted-02: #0d4738;
+  --background-tint-inverted-01: #0c3341;
+  --background-tint-inverted-00: var(--utrgv-navy);
+  --background-tint-light-01: #fff5df;
+  --background-tint-dark-01: var(--utrgv-navy);
+
+  /* Border */
+  --border-01: rgba(12, 35, 64, 0.1);
+  --border-02: rgba(12, 35, 64, 0.18);
+  --border-03: rgba(12, 35, 64, 0.32);
+  --border-04: rgba(12, 35, 64, 0.46);
+  --border-05: var(--utrgv-navy);
+  --border-inverted-05: #fffdf8;
+  --border-inverted-04: rgba(255, 255, 255, 0.72);
+  --border-inverted-03: rgba(255, 255, 255, 0.54);
+  --border-inverted-02: rgba(255, 255, 255, 0.36);
+  --border-inverted-01: rgba(255, 255, 255, 0.18);
+
+  /* Theme */
+  --theme-primary-06: #c63f1d;
+  --theme-primary-05: var(--utrgv-dark-orange);
+  --theme-primary-04: var(--utrgv-orange);
+
+  /* Theme / Gradient */
+  --theme-gradient-05: var(--utrgv-green);
+  --theme-gradient-00: var(--utrgv-orange);
+
+  /* Theme / Orange */
+  --theme-orange-05: var(--utrgv-dark-orange);
+  --theme-orange-04: var(--utrgv-orange);
+  --theme-orange-02: #ffd37a;
+  --theme-orange-01: #fff0cc;
+
+  /* Theme / Green */
+  --theme-green-05: var(--utrgv-green);
+  --theme-green-02: #8ccfb0;
+  --theme-green-01: #e2f4ea;
+
+  /* Theme / Blue */
+  --theme-blue-05: var(--utrgv-navy);
+  --theme-blue-02: #8fa0b3;
+  --theme-blue-01: #e7ebef;
+
+  /* Status */
+  --status-success-05: var(--utrgv-green);
+  --status-success-02: #8ccfb0;
+  --status-success-01: #e2f4ea;
+  --status-success-00: #f2fbf6;
+  --status-info-05: var(--utrgv-navy);
+  --status-info-02: #8fa0b3;
+  --status-info-01: #e7ebef;
+  --status-info-00: #f4f6f8;
+  --status-warning-05: var(--utrgv-dark-orange);
+  --status-warning-02: #ffd37a;
+  --status-warning-01: #fff0cc;
+  --status-warning-00: #fff9eb;
+
+  /* Status / Text */
+  --status-text-success-05: var(--utrgv-green);
+  --status-text-info-05: var(--utrgv-navy);
+  --status-text-warning-05: #b93416;
+
+  /* Action */
+  --action-link-06: #001b35;
+  --action-link-05: var(--utrgv-navy);
+  --action-link-04: #214460;
+  --action-link-03: #8fa0b3;
+  --action-link-02: #c9d2da;
+  --action-link-01: #e7ebef;
+  --action-link-00: #f4f6f8;
+
+  /* Action / Text */
+  --action-text-link-05: var(--utrgv-navy);
+
+  /* Code */
+  --code-keyword: var(--utrgv-navy);
+  --code-string: var(--utrgv-green);
+  --code-number: var(--utrgv-dark-orange);
+  --code-definition: var(--utrgv-dark-orange);
+
+  /* Highlight */
+  --highlight-selection: rgba(0, 132, 61, 0.24);
+  --highlight-active: rgba(255, 163, 0, 0.44);
+  --highlight-accent: rgba(240, 80, 35, 0.36);
+
+  /* Shadow */
+  --shadow-01: rgba(12, 35, 64, 0.06);
+  --shadow-02: rgba(12, 35, 64, 0.12);
+  --shadow-03: rgba(12, 35, 64, 0.22);
+
+  /* Scrollbar */
+  --scrollbar-thumb: rgba(12, 35, 64, 0.24);
+}

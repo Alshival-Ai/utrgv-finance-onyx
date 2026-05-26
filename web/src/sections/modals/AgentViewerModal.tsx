@@ -23,6 +23,7 @@ import {
 } from "@opal/icons";
 import { useMcpServersForAgentEditor } from "@/lib/agents/hooks";
 import { getActionIcon } from "@/lib/tools/mcpUtils";
+import { APP_BRAND_NAME } from "@/lib/branding";
 import { MCPServer, ToolSnapshot } from "@/lib/tools/interfaces";
 import { EmptyMessageCard } from "@opal/components";
 import Switch from "@/refresh-components/inputs/Switch";
@@ -259,7 +260,7 @@ export default function AgentViewerModal({ agent }: AgentViewerModalProps) {
             )}
             <Content
               icon={SvgUser}
-              title={agent.owner?.email ?? "Onyx"}
+              title={agent.owner?.email ?? APP_BRAND_NAME}
               sizePreset="main-ui"
               variant="body"
               color="muted"

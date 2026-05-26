@@ -4,8 +4,7 @@ import type { Route } from "next";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import { SvgExternalLink, SvgUsers } from "@opal/icons";
-import { Button, MessageCard } from "@opal/components";
+import { SvgUsers } from "@opal/icons";
 import * as SettingsLayouts from "@/layouts/settings-layouts";
 import SimpleLoader from "@/refresh-components/loaders/SimpleLoader";
 import { errorHandlingFetcher } from "@/lib/fetcher";
@@ -29,27 +28,7 @@ function GroupsPage() {
   return (
     <SettingsLayouts.Root>
       <div data-testid="groups-page-heading">
-        <SettingsLayouts.Header icon={SvgUsers} title="Groups" divider>
-          <MessageCard
-            variant="info"
-            title="Upcoming changes to permissions"
-            description="Onyx is transitioning to group-based permissions, enabling more flexible access control through configurable permissions per group. We recommend reviewing your group structure to prepare for this update."
-            rightChildren={
-              <Button
-                icon={SvgExternalLink}
-                onClick={() =>
-                  window.open(
-                    "https://docs.onyx.app/admins/permissions/whats_changing",
-                    "_blank",
-                    "noopener,noreferrer"
-                  )
-                }
-              >
-                Learn more
-              </Button>
-            }
-          />
-        </SettingsLayouts.Header>
+        <SettingsLayouts.Header icon={SvgUsers} title="Groups" divider />
       </div>
 
       <SettingsLayouts.Body>

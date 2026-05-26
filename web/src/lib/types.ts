@@ -15,6 +15,7 @@ export type UserSpecificAgentPreferences = Record<
 export enum ThemePreference {
   LIGHT = "light",
   DARK = "dark",
+  UTRGV = "utrgv",
   SYSTEM = "system",
 }
 

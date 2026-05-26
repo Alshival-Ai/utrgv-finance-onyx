@@ -11,8 +11,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { transformLinkUri } from "@/lib/utils";
 import { SvgAlertCircle } from "@opal/icons";
-import { SvgOnyxLogo } from "@opal/logos";
 import type { IconProps } from "@opal/types";
+import { APP_BRAND_LOGO_SRC, APP_BRAND_NAME } from "@/lib/branding";
 
 const ALL_USERS_INITIAL_POPUP_FLOW_COMPLETED =
   "allUsersInitialPopupFlowCompleted";
@@ -21,6 +21,15 @@ const CustomLogoHeaderIcon = ({ className, size = 24 }: IconProps) => (
   <img
     src="/api/enterprise-settings/logo"
     alt="Logo"
+    style={{ width: size, height: size, objectFit: "contain" }}
+    className={className}
+  />
+);
+
+const BrandLogoHeaderIcon = ({ className, size = 24 }: IconProps) => (
+  <img
+    src={APP_BRAND_LOGO_SRC}
+    alt={APP_BRAND_NAME}
     style={{ width: size, height: size, objectFit: "contain" }}
     className={className}
   />
@@ -60,24 +69,24 @@ export function AppPopup() {
   const logoDisplayStyle = enterpriseSettings?.logo_display_style;
 
   // Header icon rules:
-  // - If neither app name nor custom logo exists -> show Onyx icon
+  // - If neither app name nor custom logo exists -> show default brand icon
   // - If logo display is "name_only" -> show alert icon
-  // - Otherwise -> show uploaded custom logo (fallback to Onyx icon)
+  // - Otherwise -> show uploaded custom logo (fallback to default brand icon)
   const headerIcon =
     !hasApplicationName && !hasCustomLogo
-      ? (props: IconProps) => <SvgOnyxLogo size={24} {...props} />
+      ? BrandLogoHeaderIcon
       : logoDisplayStyle === "name_only"
         ? SvgAlertCircle
         : hasCustomLogo
           ? CustomLogoHeaderIcon
-          : (props: IconProps) => <SvgOnyxLogo size={24} {...props} />;
+          : BrandLogoHeaderIcon;
 
   return (
     <Modal open onOpenChange={() => {}}>
       <Modal.Content width="sm" height="lg">
         <Modal.Header
           icon={headerIcon}
-          title={popupTitle || "Welcome to Onyx!"}
+          title={popupTitle || `Welcome to ${APP_BRAND_NAME}!`}
         />
         <Modal.Body>
           <div className="overflow-y-auto text-left">

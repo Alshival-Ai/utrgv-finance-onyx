@@ -14,11 +14,8 @@ import { useUser } from "@/providers/UserProvider";
 import { Popover, PopoverMenu } from "@opal/components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SidebarTab, LineItemButton } from "@opal/components";
-import NotificationsPopover from "@/sections/sidebar/NotificationsPopover";
 import {
-  SvgBell,
   SvgExternalLink,
-  SvgHelpCircle,
   SvgLogOut,
   SvgSliders,
   SvgUser,
@@ -34,20 +31,19 @@ import {
 } from "@/providers/SettingsProvider";
 import UserAvatar from "@/refresh-components/avatars/UserAvatar";
 import useNotifications from "@/hooks/useNotifications";
-import { SvgOnyxLogo } from "@opal/logos";
-import { markdown } from "@opal/utils";
+import Image from "next/image";
+import {
+  ALSHIVAL_ICON_SRC,
+  ALSHIVAL_LINK_LABEL,
+  ALSHIVAL_LINK_URL,
+} from "@/lib/branding";
 
 interface SettingsPopoverProps {
   onUserSettingsClick: () => void;
-  onOpenNotifications: () => void;
 }
 
-function SettingsPopover({
-  onUserSettingsClick,
-  onOpenNotifications,
-}: SettingsPopoverProps) {
+function SettingsPopover({ onUserSettingsClick }: SettingsPopoverProps) {
   const { user } = useUser();
-  const { undismissedCount } = useNotifications();
   const settings = useSettingsContext();
   const router = useRouter();
   const pathname = usePathname();
@@ -107,30 +103,6 @@ function SettingsPopover({
             onClick={onUserSettingsClick}
           />
         </div>,
-        <LineItemButton
-          key="notifications"
-          sizePreset="main-ui"
-          variant="section"
-          rounding="sm"
-          icon={SvgBell}
-          title="Notifications"
-          onClick={onOpenNotifications}
-          rightChildren={
-            undismissedCount ? (
-              <SvgNotificationBubble count={undismissedCount} />
-            ) : undefined
-          }
-        />,
-        <LineItemButton
-          key="help-faq"
-          sizePreset="main-ui"
-          variant="section"
-          rounding="sm"
-          icon={SvgHelpCircle}
-          title="Help & FAQ"
-          href="https://docs.onyx.app"
-          target="_blank"
-        />,
         settings?.enterpriseSettings?.custom_help_link_url && (
           <LineItemButton
             key="custom-help-link"
@@ -171,18 +143,21 @@ function SettingsPopover({
         ),
         null,
         <div key="version" className="p-2">
-          <Content
-            sizePreset="secondary"
-            variant="body"
-            color="muted"
-            orientation="reverse"
-            icon={SvgOnyxLogo}
-            title={markdown(
-              `[Onyx ${
-                settings?.webVersion ?? "dev"
-              }](https://docs.onyx.app/changelog)`
-            )}
-          />
+          <a
+            href={ALSHIVAL_LINK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-text-03 hover:text-text-05 transition-colors"
+          >
+            <Image
+              src={ALSHIVAL_ICON_SRC}
+              alt=""
+              width={24}
+              height={26}
+              className="h-5 w-5 object-contain"
+            />
+            <span className="secondaryBody">{ALSHIVAL_LINK_LABEL}</span>
+          </a>
         </div>,
       ]}
     </PopoverMenu>
@@ -194,13 +169,10 @@ export interface SettingsProps {
   onShowBuildIntro?: () => void;
 }
 
-export default function AccountPopover({
-  folded,
-  onShowBuildIntro,
-}: SettingsProps) {
-  const [popupState, setPopupState] = useState<
-    "Settings" | "Notifications" | undefined
-  >(undefined);
+export default function AccountPopover({ folded }: SettingsProps) {
+  const [popupState, setPopupState] = useState<"Settings" | undefined>(
+    undefined
+  );
   const { user } = useUser();
   const appFocus = useAppFocus();
   const vectorDbEnabled = useVectorDbEnabled();
@@ -248,24 +220,12 @@ export default function AccountPopover({
         </div>
       </Popover.Trigger>
 
-      <Popover.Content
-        align="end"
-        side="right"
-        width={popupState === "Notifications" ? "2xl" : "lg"}
-      >
+      <Popover.Content align="end" side="right" width="lg">
         {popupState === "Settings" && (
           <SettingsPopover
             onUserSettingsClick={() => {
               setPopupState(undefined);
             }}
-            onOpenNotifications={() => setPopupState("Notifications")}
-          />
-        )}
-        {popupState === "Notifications" && (
-          <NotificationsPopover
-            onClose={() => setPopupState("Settings")}
-            onNavigate={() => setPopupState(undefined)}
-            onShowBuildIntro={onShowBuildIntro}
           />
         )}
       </Popover.Content>

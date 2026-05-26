@@ -231,6 +231,7 @@ class UserFileStatus(str, PyEnum):
 class ThemePreference(str, PyEnum):
     LIGHT = "light"
     DARK = "dark"
+    UTRGV = "utrgv"
     SYSTEM = "system"
 
 

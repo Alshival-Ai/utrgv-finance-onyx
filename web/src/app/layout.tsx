@@ -20,6 +20,11 @@ import LicenseExpiryBanner from "@/sections/LicenseExpiryBanner";
 import CustomAnalyticsScript from "@/providers/CustomAnalyticsScript";
 import ProductGatingWrapper from "@/providers/ProductGatingWrapper";
 import SWRConfigProvider from "@/providers/SWRConfigProvider";
+import {
+  APP_BRAND_DESCRIPTION,
+  APP_BRAND_ICON_SRC,
+  APP_BRAND_NAME,
+} from "@/lib/branding";
 
 const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
@@ -51,8 +56,12 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Onyx",
-  description: "Question answering for your documents",
+  title: APP_BRAND_NAME,
+  description: APP_BRAND_DESCRIPTION,
+  applicationName: APP_BRAND_NAME,
+  icons: {
+    icon: APP_BRAND_ICON_SRC,
+  },
 };
 
 // force-dynamic prevents Next.js from statically prerendering pages at build
@@ -98,8 +107,9 @@ export default function RootLayout({
       <body className={`relative font-hanken`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="utrgv"
           enableSystem
+          themes={["light", "dark", "utrgv"]}
           disableTransitionOnChange
         >
           <div className="text-text min-h-screen bg-background">

@@ -19,6 +19,7 @@ import {
   updateAgentFeaturedStatus,
 } from "@/lib/agents/svc";
 import { useUser } from "@/providers/UserProvider";
+import { APP_BRAND_NAME } from "@/lib/branding";
 import {
   SvgActions,
   SvgBarChart,
@@ -141,18 +142,19 @@ export default function AgentCard({ agent }: AgentCardProps) {
               description={agent.description}
               rightChildren={
                 <>
-                  {isOwnedByUser && businessTier && (
-                    // TODO(@raunakab): migrate to opal Button once className/iconClassName is resolved
-                    <IconButton
-                      icon={SvgBarChart}
-                      tertiary
-                      onClick={noProp(() =>
-                        router.push(`/ee/agents/stats/${agent.id}` as Route)
-                      )}
-                      tooltip="View Agent Stats"
-                      className="hidden group-hover/AgentCard:flex"
-                    />
-                  )}
+                  {isOwnedByUser &&
+                    businessTier && (
+                      // TODO(@raunakab): migrate to opal Button once className/iconClassName is resolved
+                      <IconButton
+                        icon={SvgBarChart}
+                        tertiary
+                        onClick={noProp(() =>
+                          router.push(`/ee/agents/stats/${agent.id}` as Route)
+                        )}
+                        tooltip="View Agent Stats"
+                        className="hidden group-hover/AgentCard:flex"
+                      />
+                    )}
                   {isOwnedByUser && (
                     // TODO(@raunakab): migrate to opal Button once className/iconClassName is resolved
                     <IconButton
@@ -196,7 +198,7 @@ export default function AgentCard({ agent }: AgentCardProps) {
             <div className="flex flex-col gap-1 py-1 px-2">
               <Content
                 icon={SvgUser}
-                title={agent.owner?.email || "Onyx"}
+                title={agent.owner?.email || APP_BRAND_NAME}
                 sizePreset="secondary"
                 variant="body"
                 color="muted"

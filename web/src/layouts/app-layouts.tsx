@@ -66,6 +66,7 @@ import { useTierAtLeast } from "@/hooks/useTierAtLeast";
 import { Tier } from "@/interfaces/settings";
 import useBrowserInfo from "@/hooks/useBrowserInfo";
 import { APP_SLOGAN } from "@/lib/constants";
+import { APP_BRAND_NAME } from "@/lib/branding";
 
 /**
  * App Header Component
@@ -465,9 +466,9 @@ function Footer() {
 
   const customFooterContent =
     settings?.enterpriseSettings?.custom_lower_disclaimer_content ||
-    `[Onyx ${
+    `[${APP_BRAND_NAME} ${
       settings?.webVersion || "dev"
-    }](https://www.onyx.app/) - ${APP_SLOGAN}`;
+    }](https://alshival.ai/) - ${APP_SLOGAN}`;
 
   return (
     <footer

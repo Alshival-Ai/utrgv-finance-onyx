@@ -1,15 +1,16 @@
 "use client";
 
 import { useSettingsContext } from "@/providers/SettingsProvider";
-import {
-  DEFAULT_LOGO_SIZE_PX,
-  NEXT_PUBLIC_DO_NOT_USE_TOGGLE_OFF_DANSWER_POWERED,
-} from "@/lib/constants";
+import { DEFAULT_LOGO_SIZE_PX } from "@/lib/constants";
 import { cn } from "@opal/utils";
-import Text from "@/refresh-components/texts/Text";
 import Truncated from "@/refresh-components/texts/Truncated";
 import { useMemo } from "react";
-import { SvgOnyxLogo, SvgOnyxLogoTyped } from "@opal/logos";
+import Image from "next/image";
+import {
+  APP_BRAND_LOGO_SRC,
+  APP_BRAND_NAME,
+  resolveBrandName,
+} from "@/lib/branding";
 
 export interface LogoProps {
   folded?: boolean;
@@ -21,7 +22,9 @@ export default function Logo({ folded, size, className }: LogoProps) {
   const resolvedSize = size ?? DEFAULT_LOGO_SIZE_PX;
   const settings = useSettingsContext();
   const logoDisplayStyle = settings.enterpriseSettings?.logo_display_style;
-  const applicationName = settings.enterpriseSettings?.application_name;
+  const applicationName = resolveBrandName(
+    settings.enterpriseSettings?.application_name
+  );
 
   // Cache-buster: the logo URL never changes (/api/enterprise-settings/logo)
   // so the browser serves the in-memory cached image even after an admin
@@ -50,7 +53,15 @@ export default function Logo({ folded, size, className }: LogoProps) {
       />
     </div>
   ) : (
-    <SvgOnyxLogo size={resolvedSize} className={cn("shrink-0", className)} />
+    <Image
+      alt={APP_BRAND_NAME}
+      src={APP_BRAND_LOGO_SRC}
+      width={900}
+      height={709}
+      className={cn("shrink-0 object-contain", className)}
+      style={{ height: resolvedSize, width: resolvedSize }}
+      priority={resolvedSize >= 64}
+    />
   );
 
   const renderNameAndPoweredBy = (opts: {
@@ -66,17 +77,6 @@ export default function Logo({ folded, size, className }: LogoProps) {
             {opts.includeName && (
               <Truncated headingH3>{applicationName}</Truncated>
             )}
-            {!NEXT_PUBLIC_DO_NOT_USE_TOGGLE_OFF_DANSWER_POWERED &&
-              !settings.enterpriseSettings?.hide_onyx_branding && (
-                <Text
-                  secondaryBody
-                  text03
-                  className={"line-clamp-1 truncate"}
-                  nowrap
-                >
-                  Powered by Onyx
-                </Text>
-              )}
           </div>
         )}
       </div>
@@ -94,11 +94,9 @@ export default function Logo({ folded, size, className }: LogoProps) {
   }
 
   // Handle "logo_and_name" or default behavior
-  return applicationName ? (
-    renderNameAndPoweredBy({ includeLogo: true, includeName: true })
-  ) : folded ? (
-    <SvgOnyxLogo size={resolvedSize} className={cn("shrink-0", className)} />
-  ) : (
-    <SvgOnyxLogoTyped size={resolvedSize} className={className} />
-  );
+  return applicationName
+    ? renderNameAndPoweredBy({ includeLogo: true, includeName: true })
+    : folded
+      ? logo
+      : renderNameAndPoweredBy({ includeLogo: true, includeName: true });
 }

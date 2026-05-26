@@ -29,8 +29,7 @@ import InputSelect from "@/refresh-components/inputs/InputSelect";
 import InputTextArea from "@/refresh-components/inputs/InputTextArea";
 import Switch from "@/refresh-components/inputs/Switch";
 import { useUser } from "@/providers/UserProvider";
-import { useTheme } from "next-themes";
-import { MemoryItem, ThemePreference } from "@/lib/types";
+import { MemoryItem } from "@/lib/types";
 import useUserPersonalization from "@/hooks/useUserPersonalization";
 import { toast } from "@/hooks/useToast";
 import LLMPopover from "@/refresh-components/popovers/LLMPopover";
@@ -54,16 +53,9 @@ import CopyIconButton from "@/refresh-components/buttons/CopyIconButton";
 import CharacterCount from "@/refresh-components/CharacterCount";
 import { InputPrompt } from "@/app/app/interfaces";
 import usePromptShortcuts from "@/hooks/usePromptShortcuts";
-import ColorSwatch from "@/refresh-components/ColorSwatch";
 import { EmptyMessageCard } from "@opal/components";
 import Memories from "@/sections/settings/Memories";
 import { FederatedConnectorOAuthStatus } from "@/components/chat/FederatedOAuthModal";
-import {
-  CHAT_BACKGROUND_OPTIONS,
-  CHAT_BACKGROUND_NONE,
-} from "@/lib/constants/chatBackgrounds";
-import { SvgCheck } from "@opal/icons";
-import { cn } from "@opal/utils";
 import { Interactive } from "@opal/core";
 import { useTierAtLeast } from "@/hooks/useTierAtLeast";
 import { Tier } from "@/interfaces/settings";
@@ -202,31 +194,7 @@ function PATModal({
 }
 
 function GeneralSettings() {
-  const {
-    user,
-    updateUserPersonalization,
-    updateUserThemePreference,
-    updateUserChatBackground,
-  } = useUser();
-  const { theme, setTheme, systemTheme } = useTheme();
-
-  const applyBackground = useCallback(
-    async (bg: (typeof CHAT_BACKGROUND_OPTIONS)[number]) => {
-      try {
-        await updateUserChatBackground(
-          bg.id === CHAT_BACKGROUND_NONE ? null : bg.id
-        );
-        if (bg.theme) {
-          setTheme(bg.theme);
-          await updateUserThemePreference(bg.theme);
-        }
-      } catch {
-        // errors are already logged and state is rolled back via refreshUser
-        // inside the update functions
-      }
-    },
-    [updateUserChatBackground, setTheme, updateUserThemePreference]
-  );
+  const { user, updateUserPersonalization } = useUser();
   const { refreshChatSessions } = useChatSessions();
   const router = useRouter();
   const pathname = usePathname();
@@ -362,113 +330,6 @@ function GeneralSettings() {
             </InputHorizontal>
           </Card>
         </Section>
-
-        <Section gap={0.75}>
-          <Content
-            title="Appearance"
-            sizePreset="main-content"
-            variant="section"
-            width="full"
-          />
-          <Card>
-            <InputHorizontal
-              title="Color Mode"
-              description="Select your preferred color mode for the UI."
-              center
-              withLabel
-            >
-              <InputSelect
-                value={theme}
-                onValueChange={(value) => {
-                  setTheme(value);
-                  updateUserThemePreference(value as ThemePreference);
-                }}
-              >
-                <InputSelect.Trigger />
-                <InputSelect.Content>
-                  <InputSelect.Item
-                    value={ThemePreference.SYSTEM}
-                    icon={() => (
-                      <ColorSwatch
-                        light={systemTheme === "light"}
-                        dark={systemTheme === "dark"}
-                      />
-                    )}
-                    description={
-                      systemTheme
-                        ? systemTheme.charAt(0).toUpperCase() +
-                          systemTheme.slice(1)
-                        : undefined
-                    }
-                  >
-                    Auto
-                  </InputSelect.Item>
-                  <InputSelect.Separator />
-                  <InputSelect.Item
-                    value={ThemePreference.LIGHT}
-                    icon={() => <ColorSwatch light />}
-                  >
-                    Light
-                  </InputSelect.Item>
-                  <InputSelect.Item
-                    value={ThemePreference.DARK}
-                    icon={() => <ColorSwatch dark />}
-                  >
-                    Dark
-                  </InputSelect.Item>
-                </InputSelect.Content>
-              </InputSelect>
-            </InputHorizontal>
-            <InputVertical title="Chat Background">
-              <div className="flex flex-wrap gap-2">
-                {CHAT_BACKGROUND_OPTIONS.map((bg) => {
-                  const currentBackgroundId =
-                    user?.preferences?.chat_background ?? "none";
-                  const isSelected = currentBackgroundId === bg.id;
-                  const isNone = bg.src === CHAT_BACKGROUND_NONE;
-
-                  return (
-                    <button
-                      key={bg.id}
-                      onClick={() => applyBackground(bg)}
-                      className="relative overflow-hidden rounded-lg transition-all w-[90px] h-[68px] cursor-pointer border-none p-0 bg-transparent group"
-                      title={bg.label}
-                      aria-label={`${bg.label} background${
-                        isSelected ? " (selected)" : ""
-                      }`}
-                    >
-                      {isNone ? (
-                        <div className="absolute inset-0 bg-background flex items-center justify-center">
-                          <span className="text-xs text-text-02">None</span>
-                        </div>
-                      ) : (
-                        <div
-                          className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                          style={{ backgroundImage: `url(${bg.thumbnail})` }}
-                        />
-                      )}
-                      <div
-                        className={cn(
-                          "absolute inset-0 transition-all rounded-lg",
-                          isSelected
-                            ? "ring-2 ring-inset ring-theme-primary-05"
-                            : "ring-1 ring-inset ring-border-02 group-hover:ring-border-03"
-                        )}
-                      />
-                      {isSelected && (
-                        <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-theme-primary-05 flex items-center justify-center">
-                          <SvgCheck className="w-2.5 h-2.5 stroke-text-inverted-05" />
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </InputVertical>
-          </Card>
-        </Section>
-
-        <Divider paddingParallel="fit" paddingPerpendicular="fit" />
 
         <Section gap={0.75}>
           <Content
@@ -1557,9 +1418,6 @@ function AccountsAccessSettings() {
                   <Text text03 secondaryBody>
                     Access tokens require an active paid subscription.
                   </Text>
-                  <Button prominence="secondary" href="/admin/billing">
-                    Upgrade Plan
-                  </Button>
                 </Section>
               </Card>
             )}

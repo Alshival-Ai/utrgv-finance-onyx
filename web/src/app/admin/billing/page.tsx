@@ -362,13 +362,13 @@ export default function BillingPage() {
       case "checkout":
         return {
           icon: SvgArrowUpCircle,
-          title: "Upgrade Plan",
+          title: "Plans & Billing",
           showBackButton: false,
         };
       case "plans":
         return {
           icon: hasSubscription ? SvgWallet : SvgArrowUpCircle,
-          title: hasSubscription ? "View Plans" : "Upgrade Plan",
+          title: hasSubscription ? "View Plans" : "Plans & Billing",
           showBackButton: !!(
             hasSubscription ||
             (isSelfHosted && licenseData?.has_license)
